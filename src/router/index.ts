@@ -71,6 +71,14 @@ const routes = [
   },
   {
     meta: {
+      title: 'Registration',
+    },
+    path: '/registration',
+    name: 'registration',
+    component: () => import('@/views/RegistrationView.vue'),
+  },
+  {
+    meta: {
       title: 'Error',
     },
     path: '/error',
