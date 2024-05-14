@@ -1,23 +1,23 @@
 <script setup>
-import { mdiCog } from '@mdi/js'
-import { useSlots, computed } from 'vue'
-import BaseIcon from '@/components/BaseIcon.vue'
-import BaseButton from '@/components/BaseButton.vue'
-import IconRounded from '@/components/IconRounded.vue'
+import { mdiCog } from '@mdi/js';
+import { useSlots, computed } from 'vue';
+import BaseIcon from '@/components/BaseIcon.vue';
+import BaseButton from '@/components/BaseButton.vue';
+import IconRounded from '@/components/IconRounded.vue';
 
 defineProps({
   icon: {
     type: String,
-    default: null
+    default: null,
   },
   title: {
     type: String,
-    required: true
+    required: true,
   },
-  main: Boolean
-})
+  main: Boolean,
+});
 
-const hasSlot = computed(() => useSlots().default)
+const hasSlot = computed(() => useSlots().default);
 </script>
 
 <template>

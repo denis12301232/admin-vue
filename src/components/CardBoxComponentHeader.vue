@@ -1,26 +1,26 @@
 <script setup>
-import BaseIcon from '@/components/BaseIcon.vue'
+import BaseIcon from '@/components/BaseIcon.vue';
 
 defineProps({
   title: {
     type: String,
-    required: true
+    required: true,
   },
   icon: {
     type: String,
-    default: null
+    default: null,
   },
   buttonIcon: {
     type: String,
-    default: null
-  }
-})
+    default: null,
+  },
+});
 
-const emit = defineEmits(['button-click'])
+const emit = defineEmits(['button-click']);
 
 const buttonClick = (event) => {
-  emit('button-click', event)
-}
+  emit('button-click', event);
+};
 </script>
 
 <template>
