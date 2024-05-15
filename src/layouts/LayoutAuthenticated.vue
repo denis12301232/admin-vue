@@ -1,46 +1,46 @@
 <script setup>
-import { mdiForwardburger, mdiBackburger, mdiMenu } from '@mdi/js'
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import menuAside from '@/menuAside.js'
-import menuNavBar from '@/menuNavBar.js'
-import { useDarkModeStore } from '@/stores/darkMode.js'
-import BaseIcon from '@/components/BaseIcon.vue'
-import FormControl from '@/components/FormControl.vue'
-import NavBar from '@/components/NavBar.vue'
-import NavBarItemPlain from '@/components/NavBarItemPlain.vue'
-import AsideMenu from '@/components/AsideMenu.vue'
-import FooterBar from '@/components/FooterBar.vue'
+import { mdiForwardburger, mdiBackburger, mdiMenu } from '@mdi/js';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import menuAside from '@/menuAside.js';
+import menuNavBar from '@/menuNavBar.js';
+import { useDarkModeStore } from '@/stores/darkMode.js';
+import BaseIcon from '@/components/BaseIcon.vue';
+import FormControl from '@/components/FormControl.vue';
+import NavBar from '@/components/NavBar.vue';
+import NavBarItemPlain from '@/components/NavBarItemPlain.vue';
+import AsideMenu from '@/components/AsideMenu.vue';
+import FooterBar from '@/components/FooterBar.vue';
 
-const layoutAsidePadding = 'xl:pl-60'
+const layoutAsidePadding = 'xl:pl-60';
 
-const darkModeStore = useDarkModeStore()
+const darkModeStore = useDarkModeStore();
 
-const router = useRouter()
+const router = useRouter();
 
-const isAsideMobileExpanded = ref(false)
-const isAsideLgActive = ref(false)
+const isAsideMobileExpanded = ref(false);
+const isAsideLgActive = ref(false);
 
 router.beforeEach(() => {
-  isAsideMobileExpanded.value = false
-  isAsideLgActive.value = false
-})
+  isAsideMobileExpanded.value = false;
+  isAsideLgActive.value = false;
+});
 
 const menuClick = (event, item) => {
   if (item.isToggleLightDark) {
-    darkModeStore.set()
+    darkModeStore.set();
   }
 
   if (item.isLogout) {
     //
   }
-}
+};
 </script>
 
 <template>
   <div
     :class="{
-      'overflow-hidden lg:overflow-visible': isAsideMobileExpanded
+      'overflow-hidden lg:overflow-visible': isAsideMobileExpanded,
     }"
   >
     <div
@@ -72,7 +72,7 @@ const menuClick = (event, item) => {
         @menu-click="menuClick"
         @aside-lg-close-click="isAsideLgActive = false"
       />
-      <slot />
+      <RouterView />
       <FooterBar>
         Get more with
         <a href="https://tailwind-vue.justboil.me/" target="_blank" class="text-blue-600"

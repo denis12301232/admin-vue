@@ -1,20 +1,20 @@
 <script setup>
-import { computed } from 'vue'
+import { computed } from 'vue';
 
 const props = defineProps({
   username: {
     type: String,
-    required: true
+    required: true,
   },
   avatar: {
     type: String,
-    default: null
+    default: null,
   },
   api: {
     type: String,
-    default: 'avataaars'
-  }
-})
+    default: 'avataaars',
+  },
+});
 
 const avatar = computed(
   () =>
@@ -23,9 +23,9 @@ const avatar = computed(
       /[^a-z0-9]+/gi,
       '-'
     )}.svg`
-)
+);
 
-const username = computed(() => props.username)
+const username = computed(() => props.username);
 </script>
 
 <template>
