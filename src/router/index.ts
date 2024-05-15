@@ -1,81 +1,54 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
-import Style from '@/views/StyleView.vue';
-import Home from '@/views/HomeView.vue';
+import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router';
 
-const routes = [
+const routes: RouteRecordRaw[] = [
   {
-    meta: {
-      title: 'Select style',
-    },
     path: '/',
-    name: 'style',
-    component: Style,
-  },
-  {
-    // Document title tag
-    // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
-    meta: {
-      title: 'Dashboard',
-    },
-    path: '/dashboard',
-    name: 'dashboard',
-    component: Home,
-  },
-  {
-    meta: {
-      title: 'Tables',
-    },
-    path: '/tables',
-    name: 'tables',
-    component: () => import('@/views/TablesView.vue'),
-  },
-  {
-    meta: {
-      title: 'Forms',
-    },
-    path: '/forms',
-    name: 'forms',
-    component: () => import('@/views/FormsView.vue'),
-  },
-  {
-    meta: {
-      title: 'Profile',
-    },
-    path: '/profile',
-    name: 'profile',
-    component: () => import('@/views/ProfileView.vue'),
-  },
-  {
-    meta: {
-      title: 'Ui',
-    },
-    path: '/ui',
-    name: 'ui',
-    component: () => import('@/views/UiView.vue'),
-  },
-  {
-    meta: {
-      title: 'Responsive layout',
-    },
-    path: '/responsive',
-    name: 'responsive',
-    component: () => import('@/views/ResponsiveView.vue'),
+    redirect: '/dashboard',
   },
   {
     meta: {
       title: 'Login',
     },
     path: '/login',
-    name: 'login',
-    component: () => import('@/views/LoginView.vue'),
+    component: () => import('@/layouts/LayoutGuest.vue'),
+    children: [
+      {
+        meta: {
+          title: 'Login',
+        },
+        path: '/login',
+        name: 'login',
+        component: () => import('@/views/LoginView.vue'),
+      },
+    ],
   },
   {
-    meta: {
-      title: 'Registration',
-    },
     path: '/registration',
-    name: 'registration',
-    component: () => import('@/views/RegistrationView.vue'),
+    component: () => import('@/layouts/LayoutGuest.vue'),
+    children: [
+      {
+        meta: {
+          title: 'Registration',
+        },
+        path: '/registration',
+        name: 'registration',
+        component: () => import('@/views/RegistrationView.vue'),
+      },
+    ],
+  },
+  {
+    path: '/dashboard',
+    component: () => import('@/layouts/LayoutAuthenticated.vue'),
+    children: [
+      {
+        meta: {
+          title: 'Dashboard',
+        },
+        path: '/dashboard',
+        name: 'dashboard',
+        component: () => import('@/views/HomeView.vue'),
+      },
+    ],
   },
   {
     meta: {
@@ -85,10 +58,68 @@ const routes = [
     name: 'error',
     component: () => import('@/views/ErrorView.vue'),
   },
+  // {
+  //   meta: {
+  //     title: 'Select style',
+  //   },
+  //   path: '/',
+  //   name: 'style',
+  //   component: Style,
+  // },
+  // {
+  //   // Document title tag
+  //   // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
+  //   meta: {
+  //     title: 'Dashboard',
+  //   },
+  //   path: '/dashboard',
+  //   name: 'dashboard',
+  //   component: Home,
+  // },
+  // {
+  //   meta: {
+  //     title: 'Tables',
+  //   },
+  //   path: '/tables',
+  //   name: 'tables',
+  //   component: () => import('@/views/TablesView.vue'),
+  // },
+  // {
+  //   meta: {
+  //     title: 'Forms',
+  //   },
+  //   path: '/forms',
+  //   name: 'forms',
+  //   component: () => import('@/views/FormsView.vue'),
+  // },
+  // {
+  //   meta: {
+  //     title: 'Profile',
+  //   },
+  //   path: '/profile',
+  //   name: 'profile',
+  //   component: () => import('@/views/ProfileView.vue'),
+  // },
+  // {
+  //   meta: {
+  //     title: 'Ui',
+  //   },
+  //   path: '/ui',
+  //   name: 'ui',
+  //   component: () => import('@/views/UiView.vue'),
+  // },
+  // {
+  //   meta: {
+  //     title: 'Responsive layout',
+  //   },
+  //   path: '/responsive',
+  //   name: 'responsive',
+  //   component: () => import('@/views/ResponsiveView.vue'),
+  // },
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
   scrollBehavior(to, from, savedPosition) {
     return savedPosition || { top: 0 };
