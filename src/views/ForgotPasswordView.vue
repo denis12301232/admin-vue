@@ -8,79 +8,58 @@ import FormControl from '@/components/FormControl.vue';
 import BaseButton from '@/components/BaseButton.vue';
 import BaseButtons from '@/components/BaseButtons.vue';
 import { VCode, VLoader } from '@/components';
-import { mdiAccount, mdiAsterisk, mdiEmail } from '@mdi/js';
+import { mdiEmail, mdiAsterisk } from '@mdi/js';
 import { useRouter } from 'vue-router';
 import { useForm } from 'vee-validate';
 import { Validation } from '@/validation';
 import { toTypedSchema } from '@vee-validate/yup';
-import { useToast } from 'vue-toast-notification';
-import { computed, ref, watch } from 'vue';
 import { useQuery } from '@/composables';
 import { Api } from '@/services';
-import { useStore } from '@/stores';
+import { computed, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
+import { useStore } from '@/stores';
+import { useToast } from 'vue-toast-notification';
 
 const { isAuth } = storeToRefs(useStore());
 const $toast = useToast();
 const router = useRouter();
-const { values, errors, meta, defineField } = useForm<Auth.SignUp.Body>({
-  validationSchema: toTypedSchema(Validation.signUp),
+const { values, errors, meta, defineField } = useForm<Auth.ResetPasswordRequest.Body>({
+  validationSchema: toTypedSchema(Validation.forgotPassword),
 });
 const [email, emailAttrs] = defineField('email');
-const [password, passwordAttrs] = defineField('password');
-const [firstName, firstNameAttrs] = defineField('first_name');
-const [secondName, secondNameAttrs] = defineField('second_name');
-const { data, error, isLoading, query: signUp } = useQuery(Api.Auth.signUp);
-const { query: validate, error: codeError, isLoading: isCodeLoading } = useQuery(Api.Auth.twoFaCode);
+const [password, passwordAttrs] = defineField('new_password');
+const { data, error, isLoading, query: resetPasswordRequest } = useQuery(Api.Auth.resetPasswordRequest);
+const {
+  error: resetError,
+  isLoading: isCodeLoading,
+  query: resetPasswordComplete,
+} = useQuery(Api.Auth.resetPasswordComplete);
 
 const code = ref('');
-const token = computed(() => data.value?.twofa.token);
+const codeToken = computed(() => data.value?.code_token);
 
 watch(error, () => error.value && $toast.error(error.value.message));
-watch(codeError, (n) => n && $toast.error(n.message));
+watch(resetError, (n) => n && $toast.error(n.message));
 watch(isAuth, (n) => n && router.push('/'));
 
 function submit() {
-  validate({ code: code.value, code_token: token.value! });
+  resetPasswordComplete({
+    code: code.value,
+    code_token: codeToken.value!,
+    new_password: values.new_password,
+  });
 }
 </script>
 
 <template>
   <SectionFullScreen v-slot="{ cardClass }" bg="purplePink">
-    <CardBox v-if="!token" :class="cardClass" is-form @submit.prevent="signUp(values)">
-      <CardBoxComponentTitle class="!justify-center" title="Sign Up" />
-      <FormField
-        class="mt-5"
-        label="First name"
-        :help="!errors.first_name ? 'Please enter your first name' : undefined"
-      >
-        <div class="flex flex-col">
-          <FormControl
-            v-model="firstName"
-            v-bind="firstNameAttrs"
-            :icon="mdiAccount"
-            required
-            name="firstName"
-          />
-          <small class="mt-2 text-red-800">{{ errors.first_name }}</small>
-        </div>
-      </FormField>
-      <FormField
-        class="mt-5"
-        label="Second name"
-        :help="!errors.second_name ? 'Please enter your login' : undefined"
-      >
-        <div class="flex flex-col">
-          <FormControl
-            v-model="secondName"
-            v-bind="secondNameAttrs"
-            :icon="mdiAccount"
-            required
-            name="secondName"
-          />
-          <small class="mt-2 text-red-800">{{ errors.second_name }}</small>
-        </div>
-      </FormField>
+    <CardBox
+      v-if="!codeToken"
+      :class="cardClass"
+      is-form
+      @submit.prevent="resetPasswordRequest(values)"
+    >
+      <CardBoxComponentTitle class="!justify-center" title="Forgot password" />
       <FormField
         class="mt-5"
         label="Email"
@@ -92,8 +71,8 @@ function submit() {
         </div>
       </FormField>
       <FormField
-        label="Password"
-        :help="!errors.password ? 'Please enter your password' : undefined"
+        label="New password"
+        :help="!errors.new_password ? 'Please enter new password' : undefined"
       >
         <div class="flex flex-col">
           <FormControl
@@ -104,11 +83,11 @@ function submit() {
             type="password"
             name="password"
           />
-          <small class="mt-2 text-red-800">{{ errors.password }}</small>
+          <small class="mt-2 text-red-800">{{ errors.new_password }}</small>
         </div>
       </FormField>
       <template #footer>
-        <BaseButtons v-if="!isLoading" class="justify-center">
+        <BaseButtons v-if="!isLoading" class="justify-center mt-4">
           <BaseButton :disabled="!meta.valid" type="submit" color="info" label="Submit" />
         </BaseButtons>
         <div v-else class="flex justify-center">

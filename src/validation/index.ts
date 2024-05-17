@@ -1,15 +1,24 @@
-import { object, string, boolean } from 'yup';
+import { object, string } from 'yup';
 
 export namespace Validation {
-  export const registration = object({
-    login: string().required(),
-    password: string().required().min(6).max(20),
-    remember: boolean(),
+  export const signUp = object({
+    email: string().required().email(),
+    password: string().required().min(8).max(20),
+    first_name: string().required(),
+    second_name: string().required(),
   });
 
-  export const login = object({
-    login: string().required(),
-    password: string().required(),
-    remember: boolean(),
+  export const signIn = object({
+    email: string().required().email(),
+    password: string().required().min(8).max(20),
+  });
+
+  export const forgotPassword = object({
+    email: string().required().email(),
+    new_password: string().required().min(8).max(20),
+  });
+
+  export const apiTokensRequest = object({
+    api_token_name: string().required(),
   });
 }

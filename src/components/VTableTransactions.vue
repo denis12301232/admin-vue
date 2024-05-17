@@ -8,11 +8,13 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-
 const page = ref(1);
 const limit = ref(5);
 const paginated = computed(() =>
-  props.transactions.slice((page.value - 1) * limit.value, limit.value)
+  props.transactions.slice(
+    (page.value - 1) * limit.value,
+    (page.value - 1) * limit.value + limit.value
+  )
 );
 
 watch(page, () => {
@@ -45,6 +47,6 @@ watch(page, () => {
         </tr>
       </tbody>
     </table>
-    <VPagination v-model:page="page" :total="44" :limit="limit" />
+    <VPagination v-model:page="page" :total="transactions.length" :limit="limit" />
   </figure>
 </template>

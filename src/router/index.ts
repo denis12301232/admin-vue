@@ -2,8 +2,22 @@ import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
   {
+    path: '/test',
+    component: () => import('@/views/TestView.vue'),
+  },
+  {
     path: '/',
-    redirect: '/dashboard',
+    component: () => import('@/layouts/LayoutAuthenticated.vue'),
+    children: [
+      {
+        meta: {
+          title: 'Home',
+        },
+        path: '/',
+        name: 'home',
+        component: () => import('@/views/DashboardView.vue'),
+      },
+    ],
   },
   {
     meta: {
@@ -37,16 +51,16 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
-    path: '/dashboard',
-    component: () => import('@/layouts/LayoutAuthenticated.vue'),
+    path: '/forgot/password',
+    component: () => import('@/layouts/LayoutGuest.vue'),
     children: [
       {
         meta: {
-          title: 'Dashboard',
+          title: 'Forgot password',
         },
-        path: '/dashboard',
-        name: 'dashboard',
-        component: () => import('@/views/DashboardView.vue'),
+        path: '/forgot/password',
+        name: 'forgot-password',
+        component: () => import('@/views/ForgotPasswordView.vue'),
       },
     ],
   },
@@ -58,64 +72,20 @@ const routes: RouteRecordRaw[] = [
     name: 'error',
     component: () => import('@/views/ErrorView.vue'),
   },
-  // {
-  //   meta: {
-  //     title: 'Select style',
-  //   },
-  //   path: '/',
-  //   name: 'style',
-  //   component: Style,
-  // },
-  // {
-  //   // Document title tag
-  //   // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
-  //   meta: {
-  //     title: 'Dashboard',
-  //   },
-  //   path: '/dashboard',
-  //   name: 'dashboard',
-  //   component: Home,
-  // },
-  // {
-  //   meta: {
-  //     title: 'Tables',
-  //   },
-  //   path: '/tables',
-  //   name: 'tables',
-  //   component: () => import('@/views/TablesView.vue'),
-  // },
-  // {
-  //   meta: {
-  //     title: 'Forms',
-  //   },
-  //   path: '/forms',
-  //   name: 'forms',
-  //   component: () => import('@/views/FormsView.vue'),
-  // },
-  // {
-  //   meta: {
-  //     title: 'Profile',
-  //   },
-  //   path: '/profile',
-  //   name: 'profile',
-  //   component: () => import('@/views/ProfileView.vue'),
-  // },
-  // {
-  //   meta: {
-  //     title: 'Ui',
-  //   },
-  //   path: '/ui',
-  //   name: 'ui',
-  //   component: () => import('@/views/UiView.vue'),
-  // },
-  // {
-  //   meta: {
-  //     title: 'Responsive layout',
-  //   },
-  //   path: '/responsive',
-  //   name: 'responsive',
-  //   component: () => import('@/views/ResponsiveView.vue'),
-  // },
+  {
+    component: () => import('@/layouts/LayoutAuthenticated.vue'),
+    path: '/api-tokens',
+    children: [
+      {
+        meta: {
+          title: 'Api Tokens',
+        },
+        path: '/api-tokens',
+        name: 'api-tokens',
+        component: () => import('@/views/ApiTokensView.vue'),
+      },
+    ],
+  },
 ];
 
 const router = createRouter({

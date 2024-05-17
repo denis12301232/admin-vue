@@ -2,22 +2,16 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import App from './App.vue';
 import router from './router';
-import { useMainStore } from '@/stores/main.js';
-
+import ToastPlugin from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-default.css';
 import './css/main.css';
 
 // Init Pinia
 const pinia = createPinia();
 
 // Create Vue app
-createApp(App).use(router).use(pinia).mount('#app');
+createApp(App).use(router).use(pinia).use(ToastPlugin, { position: 'left' }).mount('#app');
 
-// Init main store
-const mainStore = useMainStore(pinia);
-
-// Fetch sample data
-mainStore.fetchSampleClients();
-mainStore.fetchSampleHistory();
 
 // Dark mode
 // Uncomment, if you'd like to restore persisted darkMode setting, or use `prefers-color-scheme: dark`. Make sure to uncomment localStorage block in src/stores/darkMode.js

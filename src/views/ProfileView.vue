@@ -1,6 +1,5 @@
 <script setup>
 import { reactive } from 'vue';
-import { useMainStore } from '@/stores/main';
 import { mdiAccount, mdiMail, mdiAsterisk, mdiFormTextboxPassword, mdiGithub } from '@mdi/js';
 import SectionMain from '@/components/SectionMain.vue';
 import CardBox from '@/components/CardBox.vue';
@@ -14,11 +13,9 @@ import UserCard from '@/components/UserCard.vue';
 import LayoutAuthenticated from '@/layouts/LayoutAuthenticated.vue';
 import SectionTitleLineWithButton from '@/components/SectionTitleLineWithButton.vue';
 
-const mainStore = useMainStore();
-
 const profileForm = reactive({
-  name: mainStore.userName,
-  email: mainStore.userEmail,
+  name: 'username',
+  email: 'email',
 });
 
 const passwordForm = reactive({
@@ -28,7 +25,8 @@ const passwordForm = reactive({
 });
 
 const submitProfile = () => {
-  mainStore.setUser(profileForm);
+  //mainStore.setUser(profileForm);
+
 };
 
 const submitPass = () => {

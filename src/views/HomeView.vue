@@ -1,6 +1,5 @@
 <script setup>
 import { computed, ref, onMounted } from 'vue';
-import { useMainStore } from '@/stores/main';
 import {
   mdiAccountMultiple,
   mdiCartOutline,
@@ -33,11 +32,10 @@ onMounted(() => {
   fillChartData();
 });
 
-const mainStore = useMainStore();
 
-const clientBarItems = computed(() => mainStore.clients.slice(0, 4));
+const clientBarItems = computed(() => []);
 
-const transactionBarItems = computed(() => mainStore.history);
+const transactionBarItems = computed(() => []);
 </script>
 
 <template>
